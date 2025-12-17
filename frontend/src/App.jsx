@@ -1,19 +1,58 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import TransactionForm from './components/TransactionForm';
+import TransactionList from './components/TransactionList';
+
 function App() {
+  const [transactions, setTransactions] = useState([]);
+
+  // Fetch transactions when the app starts
+  const fetchTransactions = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/transactions/'); // Wait, we need to create this GET endpoint!
+      // NOTE: We only built the POST endpoint in backend. We need to add GET.
+      // For now, let's just handle state locally to update the UI instantly.
+      // We will fix the backend GET in a second.
+    } catch (error) {
+      console.error("Error fetching transactions", error);
+    }
+  };
+
+  // For the MVP, we will manually update the list when a new item is added
+  const handleNewTransaction = (newTx) => {
+    setTransactions([newTx, ...transactions]);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-xl shadow-lg">
-        <h1 className="text-4xl font-bold text-blue-600 mb-4">
-          SmartFinance
-        </h1>
-        <p className="text-gray-600 text-lg">
-          If you see this blue text, Tailwind is working! 🚀
-        </p>
-        <button className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-          Test Button
-        </button>
-      </div>
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+      {/* Navbar */}
+      <nav className="bg-blue-700 text-white p-4 shadow-lg">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold tracking-tight">SmartFinance <span className="text-blue-200 text-sm font-normal">AI Edition</span></h1>
+          <div className="text-sm bg-blue-800 px-3 py-1 rounded-full">Intuit Case Study</div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main className="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
+        
+        {/* Left Column: Form */}
+        <div className="md:col-span-1">
+          <TransactionForm onTransactionAdded={handleNewTransaction} />
+          
+          <div className="mt-6 bg-blue-50 p-4 rounded-xl border border-blue-100 text-sm text-blue-800">
+            <strong>How it works:</strong> Type a description like "Dinner at McDonald's". The AI will automatically categorize it as "Food" or "Dining".
+          </div>
+        </div>
+
+        {/* Right Column: List */}
+        <div className="md:col-span-2">
+          <TransactionList transactions={transactions} />
+        </div>
+
+      </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
