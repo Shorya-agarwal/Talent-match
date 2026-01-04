@@ -8,7 +8,7 @@ function ApplicationForm({ onAdd }) {
     resume_text: '',
     job_description: ''
   });
-  const [loading,FLoading] = useState(false);
+  const [loading,setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

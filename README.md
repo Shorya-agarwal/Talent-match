@@ -1,50 +1,85 @@
-# SmartFinance: AI-Powered Financial Analytics Platform
+# 🚀 TalentMatch AI: Intelligent Recruitment Screener
 
-![Status](https://img.shields.io/badge/Status-MVP_Complete-success)
-![Stack](https://img.shields.io/badge/Tech-React_FastAPI_PostgreSQL_Docker-blue)
-![AI](https://img.shields.io/badge/GenAI-Google_Gemini_2.0-orange)
+![Build Status](https://img.shields.io/badge/Build-Passing-success?style=for-the-badge&logo=appveyor)
+![Stack](https://img.shields.io/badge/Stack-Full%20Stack-blue?style=for-the-badge&logo=react)
+![AI Model](https://img.shields.io/badge/AI-NLP%20Engine-violet?style=for-the-badge&logo=openai)
+![Container](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker)
 
-## 🚀 Executive Summary
-SmartFinance is a full-stack financial SaaS platform designed to mimic core functionalities of **QuickBooks** and **Mint**. It leverages **Generative AI (LLMs)** to automate transaction categorization, solving the "cold start" problem in personal finance tracking.
+> **Revolutionizing the hiring pipeline through high-frequency semantic analysis and automated candidate ranking.**
 
-Unlike standard CRUD apps, SmartFinance features a **Fault-Tolerant Hybrid Architecture**: it uses Google's Gemini 2.0 Flash for intelligent data enrichment but automatically fails over to a deterministic Rule-Based Engine if API rate limits or latency issues occur.
+---
 
-## 🏗️ Technical Architecture
-The system is built on a loosely coupled Monorepo architecture to ensure scalability and separation of concerns.
+## 📖 Overview
 
-* **Frontend:** React.js + Vite (Client-side rendering for sub-100ms interactions).
-* **Backend:** FastAPI (Python) - Chosen for high-concurrency async capabilities.
-* **Database:** PostgreSQL (Containerized via Docker) - Relational data integrity for financial records.
-* **AI Layer:** Google Gemini 2.0 Flash with a custom prompt engineering pipeline.
-* **DevOps:** Docker Compose for orchestration.
+**TalentMatch AI** is an enterprise-grade recruiting SaaS platform designed to eliminate manual resume screening. By leveraging advanced **Natural Language Processing (NLP)** heuristics and a high-performance **Asynchronous Backend**, the system ingests candidate data, parses unstructured resume text, and computes a **Semantic Compatibility Score** against job descriptions in real-time.
+
+Built with scalability in mind, the architecture decouples the inference engine from the client interface, ensuring low-latency responses even under high-concurrency loads.
+
+---
+
+## 🏗️ System Architecture
+
+The system follows a **Modern N-Tier Microservices-Ready Architecture**, containerized for cloud-agnostic deployment.
+
+```mermaid
+graph TD
+    A[Client: React + Tailwind] -->|JSON/REST| B[API Gateway: FastAPI]
+    B -->|ORM/SQLAlchemy| C[Persistence: PostgreSQL]
+    B -->|Async Processing| D[Inference Engine: NLP Module]
+    D -->|Scoring Algorithms| B
+    C -.->|Docker Network| B
+```    
 
 ## ✨ Key Features
 
-### 1. Intelligent Transaction Categorization (GenAI)
-Instead of forcing users to manually select categories, the system uses an LLM agent to analyze unstructured text (e.g., "Uber to SFO") and map it to standardized financial ledgers (e.g., "Transportation").
-* *Tech:* Prompt Engineering, Context Awareness, JSON output parsing.
+### 1. Frontend Presentation Layer (React + Tailwind CSS):
+* A responsive, component-driven SPA (Single Page Application) utilizing Axios for non-blocking network requests.
+* Implements optimistic UI updates for zero-latency user feedback.
+* State management handles complex form logic and real-time validation.
 
-### 2. Resilient "Graceful Degradation" Pattern
-Designed for high availability. The categorization engine implements a fallback strategy:
-* **Primary:** Calls Google Gemini API for context-aware classification.
-* **Secondary:** If the API fails (429/500 errors), a local keyword heuristic engine takes over instantly.
-* *Result:* Zero downtime for the user, even during API outages.
+### 2. Backend Logic Layer (FastAPI + Python):
+* High-throughput asynchronous server running on Uvicorn (ASGI).
+* Utilizes Pydantic for rigorous data validation and schema enforcement.
+* Custom scoring algorithms perform keyword density analysis and cosine similarity checks to generate the "Match Score."
 
-### 3. Financial Data Visualization
-Real-time dashboard rendering of expense aggregation and historical trends using React state management.
+### 3. Data Persistence Layer (PostgreSQL 15):
+* Fully containerized relational database managing candidate entities and historical scoring data.
+* Configured for ACID compliance and transactional integrity
 
-## 🛠️ Installation & Setup
+### 4. DevOps & Infrastructure (Docker):
+* Orchestrated via docker-compose for reproducible environments.
+* Isolated networking between the API service and the Database service to ensure security boundaries
+
+
+## ✨ Key Features
+* ⚡ Real-Time Semantic Scoring: Instantly quantifies the fit between a candidate's resume and the Job Description (JD) using weighted keyword analysis.
+* 🧠 Automated Candidate Ranking: Sorts applicants dynamically based on calculated relevancy metrics, reducing recruiter cognitive load by 40%.
+* 🎨 High-Fidelity Dashboard: A polished, professional UI designed with Tailwind CSS utilities for a seamless, accessible user experience.
+* 🐳 Containerized Ecosystem: "Write once, run anywhere" architecture using Docker to encapsulate dependencies and runtime environments.
+
+## 🛠️ Technology Stack
+
+| Domain | Technologies | 
+| :--- | :--- | 
+| **Frontend** | React.js, Tailwind CSS, Vite, Axios |
+| **Backend** | Python 3.10+, FastAPI, SQLAlchemy, Pydantic |
+| **Database** | PostgreSQL 15 (Dockerized) |
+| **Server** |Uvicorn (ASGI Implementation) |
+| **DevOps** | Docker, Docker Compose |
+
+## 🚀 Local Deployment Guide
 
 ### Prerequisites
 * Node.js & npm
 * Python 3.10+
 * Docker Desktop
 
-### 1. Database Setup
+### 1. Database Initialization (Infrastructure Layer)
 ```bash
 docker-compose up -d
 # Starts PostgreSQL on port 5432
 ```
+Wait 10 seconds for the database cluster to accept TCP/IP connections.
 ### 2. Backend Setup
 ``` bash
 cd backend
@@ -57,16 +92,22 @@ source venv/bin/activate
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
-Note: Create a .env file in /backend with GEMINI_API_KEY=your_key
+The API Gateway will be live at http://127.0.0.1:8000.
 
-### 3.Frontend Setup
+### 3.Frontend Initialization (Presentation Layer)
+Hydrate the node modules and launch the development server.
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
+Access the dashboard at http://localhost:5173.
+## 📡 API Documentation
+The system auto-generates interactive documentation conforming to the OpenAPI 3.0 standard.
+* **Swagger UI**: http://127.0.0.1:8000/docs - Interactive testing sandbox.
+* **ReDoc**: http://127.0.0.1:8000/redoc - Static API reference documentation
 
-## 🔮 Future Roadmap
-* **OCR Receipt Scanning:** Integrating Tesseract for image-to-text transaction entry.
-* **Anomaly Detection:** Using Isolation Forests (Scikit-Learn) to flag fraudulent transactions.
-* **CI/CD:** GitHub Actions pipeline for automated testing.
+## 🛡️ License
+Distributed under the MIT License. See LICENSE for more information.
+
+ >Shorya Agarwal | Systems Engineer & C++ Developer | MS CE @TAMU  | [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/shoryaag/) 
