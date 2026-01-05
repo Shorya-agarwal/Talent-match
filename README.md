@@ -65,7 +65,7 @@ graph TD
 | **Backend** | Python 3.10+, FastAPI, SQLAlchemy, Pydantic |
 | **Database** | PostgreSQL 15 (Dockerized) |
 | **Server** |Uvicorn (ASGI Implementation) |
-| **DevOps** | Docker, Docker Compose |
+| **DevOps** | Docker, Docker Compose, Kubernates |
 
 ## 🚀 Local Deployment Guide
 
